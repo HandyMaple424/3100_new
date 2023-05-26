@@ -33,3 +33,66 @@ else:
     client_results = parse_client_results(args.config_dir, metrics, args.client_command_string, args.newline)
 
 print_results(client_results, reference_results, metrics, "tt")
+
+
+			str = (String) din.readLine();
+                        System.out.println("lowest amount: " + str);
+
+                        String[] server = str.split(" ");
+                        largestServer =server[0];
+                        System.out.println(largestServer + " ni");
+                        largestServerID = convert(server[1]);
+                        System.out.println(largestServerID+ "niiiiiiiii");
+
+                        dout.write(("OK\n").getBytes());
+                        str = (String) din.readLine();
+
+                        dout.write(("EJWT " +  largestServer + " " + largestServerID +"\n").getBytes());
+                        
+                        str = (String) din.readLine();
+                        System.out.println(str + " THIS IS SUPPOSED TO BE EJWT RESPONSE");
+                        ejwt = convert(str);
+
+                        if(smallejwt < ejwt){
+                           servername.equals(largestServer);
+                           serverid = largestServerID; 
+                        }
+                    }
+                }
+
+                
+
+                String smallest = "";
+                int smallestID1 = 0;
+
+                boolean find = false;
+                // first capable
+                for (int i = 0; i < nRecs; i++) {
+
+                    str = (String)din.readLine();
+                    System.out.println("RCVD: " + str);
+
+                    String[] server = str.split(" ");
+
+                    if (find == false) {
+                        System.out.println("got" + str);
+                        
+                            smallest = server[0];
+                            smallestID1 = convert(server[1]);
+                            find = true;
+                            
+                        
+                    }
+                    
+                    
+                /*
+                 * for (int i = 0; i < nRecs; i++) {
+                 * str = (String)din.readLine();
+                 * System.out.println("RCVD: " + str);
+                 * 
+                 * String[] server = str.split(" ");
+                 * 
+                 * largestServer = server[0];
+                 * largestServerID = Integer.parseInt(server[1]);
+                 * }
+                 */

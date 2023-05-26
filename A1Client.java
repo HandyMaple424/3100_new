@@ -54,11 +54,15 @@ public class MyClient22 {
                 int jobcore = convert(job[4]);
                 int jobmem = convert(job[5]);
                 int jobdisk = convert(job[6]);
+                
 
                 dout.write(("GETS Avail" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
                 System.out.println("SENT: GETS Avail");
 
                 str = (String) din.readLine();
+                System.out.println("SENT: GETS avail"+ str);
+
+                int nRecs2 = 0;
                 boolean Capable1 = false;
                 if(str.contains("DATA 0")){
                     dout.write(("OK\n").getBytes());
@@ -67,6 +71,9 @@ public class MyClient22 {
                     System.out.println("SENT: GETS capable");
                     str = (String) din.readLine();
                     Capable1 = true;
+
+                    String[] response = str.split(" ");
+                    nRecs2 = convert(response[1]);
                 }
                 
 
@@ -78,32 +85,7 @@ public class MyClient22 {
                 dout.write(("OK\n").getBytes());
                 System.out.println("got: OK");
 
-                String largestServer = "";
-                int largestServerID = 0;
-                int ejwt = 0;
-                int smallejwt = 10000000;
-
-                String servername = "";
-                int serverid = 0;
-                if(Capable1 == true){
-                    for (int i = 0; i < nRecs; i++) {
-                        str = (String)din.readLine();
-                        System.out.println("lowest amount: " + str);
-                        String[] server = str.split(" ");
-                        largestServer =server[0];
-                        largestServerID = convert(server[1]);
-                        dout.write(("EJWT " +  largestServer + " " + largestServerID +"\n").getBytes());
-                        str = (String)din.readLine();
-                        ejwt = convert(str);
-
-                        if(smallejwt < ejwt){
-                           servername.equals(largestServer);
-                           serverid = largestServerID; 
-                        }
-                    }
-                }
-
-                
+             
 
                 String smallest = "";
                 int smallestID1 = 0;
@@ -128,18 +110,19 @@ public class MyClient22 {
                     }
                 }
 
-                /*
-                 * for (int i = 0; i < nRecs; i++) {
-                 * str = (String)din.readLine();
-                 * System.out.println("RCVD: " + str);
-                 * 
-                 * String[] server = str.split(" ");
-                 * 
-                 * largestServer = server[0];
-                 * largestServerID = Integer.parseInt(server[1]);
-                 * }
-                 */
+                String largestServer = "";
+                int largestServerID = 0;
+                int ejwt = 0;
+                int smallejwt = 10000000;
 
+                String servername = "";
+                int serverid = 0;
+                if(Capable1 == true){
+                    for (int i = 0; i < nRecs2; i++) {
+                        
+                    }
+                }
+                    
                 dout.write(("OK\n").getBytes());
                 System.out.println("SENT: OK");
 
