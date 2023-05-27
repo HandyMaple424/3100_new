@@ -1,25 +1,26 @@
-import java.net.Socket;
-import java.io.BufferedReader;
+import java.util.Arrays;
 import java.io.InputStreamReader;
 import java.io.DataOutputStream;
-import java.util.Arrays;
+import java.net.Socket;
+import java.io.BufferedReader;
 
-public class MyClient {
+public class A1Client {
 
-    // First we will need to convert a string to a int.
-    public static int convert(String str) {
+    // First we will need to convert a reading to a int.
+    public static int convert(String read) {
         int val = 0;
         try {
-            val = Integer.parseInt(str);
+            val = Integer.parseInt(read);
         } catch (NumberFormatException e) {
             System.out.println("Wrong type of String");
         }
         return val;
     }
+
     // quick way of printing. thanks Jayden! :D
-    public static void print(String str) {
+    public static void print(String read) {
         try{
-    System.out.println(str);
+    System.out.println(read);
         } catch(NumberFormatException e) {
             System.out.println("Cant print right now");
         }
@@ -35,30 +36,30 @@ public class MyClient {
 
             dout.write(("HELO\n").getBytes());
 
-            String str = (String) din.readLine();
+            String read = (String) din.readLine();
 
             dout.write(("AUTH max\n").getBytes());
 
-            str = (String) din.readLine();
+            read = (String) din.readLine();
 
             dout.write(("REDY\n").getBytes());
 
-            str = (String) din.readLine();
-            print("The Job is: " + str);
+            read = (String) din.readLine();
+            print("The Job is: " + read);
             // start the looping for scheduling
             Boolean check = false;
             String savingfirst = "";
-            while (!str.equals("NONE")) {
-                if (!str.startsWith("JOBN")) {
+            while (!read.equals("NONE")) {
+                if (!read.startsWith("JOBN")) {
                     dout.write(("REDY\n").getBytes());
                     print("SENT: REDY");
-                    str = (String) din.readLine();
-                    print("RCVD: " + str);
+                    read = (String) din.readLine();
+                    print("RCVD: " + read);
 
                     continue;
                 }
                 //Splitting into seperate parts of the job
-                String[] job = str.split(" ");
+                String[] job = read.split(" ");
                 int jobID = convert(job[2]);
                 int jobcore = convert(job[4]);
                 int jobmem = convert(job[5]);
@@ -68,27 +69,27 @@ public class MyClient {
                 dout.write(("GETS Avail" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
                 print("SENT: GETS Avail");
 
-                str = (String) din.readLine();
-                print("SENT: GETS avail"+ str);
+                read = (String) din.readLine();
+                print("SENT: GETS avail"+ read);
 
                 int nRecs2 = 0;
                 boolean Capable1 = false;
-                //if no data is present when using get avail then we have to get any capable server.
-                if(str.contains("DATA 0")){
+                //if no data is present when using get avail then we have to get first capable server.
+                if(read.contains("DATA 0")){
                     dout.write(("OK\n").getBytes());
-                    str = (String) din.readLine();
+                    read = (String) din.readLine();
                     dout.write(("GETS Capable" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
                     print("SENT: GETS capable");
-                    str = (String) din.readLine();
+                    read = (String) din.readLine();
                     Capable1 = true;
 
-                    String[] response = str.split(" ");
+                    String[] response = read.split(" ");
                     nRecs2 = convert(response[1]);
                 }
                 
 
-                print("RCVD: " + str);
-                String[] response = str.split(" ");
+                print("RCVD: " + read);
+                String[] response = read.split(" ");
                
                 int nRecs = convert(response[1]);
 
@@ -104,13 +105,13 @@ public class MyClient {
                 // first capable
                 for (int i = 0; i < nRecs; i++) {
 
-                    str = (String)din.readLine();
-                    print("RCVD: " + str);
+                    read = (String)din.readLine();
+                    print("RCVD: " + read);
 
-                    String[] server = str.split(" ");
+                    String[] server = read.split(" ");
 
                     if (find == false) {
-                        print("got" + str);
+                        print("got" + read);
                         
                             smallest = server[0];
                             smallestID1 = convert(server[1]);
@@ -136,25 +137,25 @@ public class MyClient {
                 dout.write(("OK\n").getBytes());
                 print("SENT: OK");
 
-                str = (String) din.readLine();
-                print("RCVD: " + str);
+                read = (String) din.readLine();
+                print("RCVD: " + read);
 
                 dout.write(("SCHD" + jobID + " " + smallest + " " + smallestID1 + "\n").getBytes());
                 print("SENT: SCHD " + jobID + " " + smallest + " " + smallestID1);
                 find = false;
-                str = (String) din.readLine();
-                print("RCVD: " + str);
+                read = (String) din.readLine();
+                print("RCVD: " + read);
 
                 dout.write(("REDY\n").getBytes());
                 print("SENT: REDY");
 
-                str = (String) din.readLine();
-                print("RCVD: " + str);
+                read = (String) din.readLine();
+                print("RCVD: " + read);
             }
 
             dout.write(("QUIT\n").getBytes());
 
-            str = (String) din.readLine();
+            read = (String) din.readLine();
             print("Done Scheduling");
 
             din.close();
