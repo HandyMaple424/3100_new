@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.util.Arrays;
 
-public class MyClient22 {
+public class MyClient {
 
     // First we will need to convert a string to a int.
     public static int convert(String str) {
@@ -16,6 +16,16 @@ public class MyClient22 {
         }
         return val;
     }
+    // quick way of printing. thanks Jayden! :D
+    public static void print(String str) {
+        try{
+    System.out.println(str);
+        } catch(NumberFormatException e) {
+            System.out.println("Cant print right now");
+        }
+
+    }
+
 
     public static void main(String[] args) {
         try {
@@ -34,41 +44,41 @@ public class MyClient22 {
             dout.write(("REDY\n").getBytes());
 
             str = (String) din.readLine();
-            System.out.println("The Job is: " + str);
-
+            print("The Job is: " + str);
+            // start the looping for scheduling
             Boolean check = false;
             String savingfirst = "";
             while (!str.equals("NONE")) {
                 if (!str.startsWith("JOBN")) {
                     dout.write(("REDY\n").getBytes());
-                    System.out.println("SENT: REDY");
+                    print("SENT: REDY");
                     str = (String) din.readLine();
-                    System.out.println("RCVD: " + str);
+                    print("RCVD: " + str);
 
                     continue;
                 }
-
+                //Splitting into seperate parts of the job
                 String[] job = str.split(" ");
                 int jobID = convert(job[2]);
-
                 int jobcore = convert(job[4]);
                 int jobmem = convert(job[5]);
                 int jobdisk = convert(job[6]);
                 
 
                 dout.write(("GETS Avail" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
-                System.out.println("SENT: GETS Avail");
+                print("SENT: GETS Avail");
 
                 str = (String) din.readLine();
-                System.out.println("SENT: GETS avail"+ str);
+                print("SENT: GETS avail"+ str);
 
                 int nRecs2 = 0;
                 boolean Capable1 = false;
+                //if no data is present when using get avail then we have to get any capable server.
                 if(str.contains("DATA 0")){
                     dout.write(("OK\n").getBytes());
                     str = (String) din.readLine();
                     dout.write(("GETS Capable" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
-                    System.out.println("SENT: GETS capable");
+                    print("SENT: GETS capable");
                     str = (String) din.readLine();
                     Capable1 = true;
 
@@ -77,13 +87,13 @@ public class MyClient22 {
                 }
                 
 
-                System.out.println("RCVD: " + str);
+                print("RCVD: " + str);
                 String[] response = str.split(" ");
                
                 int nRecs = convert(response[1]);
 
                 dout.write(("OK\n").getBytes());
-                System.out.println("got: OK");
+                print("got: OK");
 
              
 
@@ -95,12 +105,12 @@ public class MyClient22 {
                 for (int i = 0; i < nRecs; i++) {
 
                     str = (String)din.readLine();
-                    System.out.println("RCVD: " + str);
+                    print("RCVD: " + str);
 
                     String[] server = str.split(" ");
 
                     if (find == false) {
-                        System.out.println("got" + str);
+                        print("got" + str);
                         
                             smallest = server[0];
                             smallestID1 = convert(server[1]);
@@ -124,28 +134,28 @@ public class MyClient22 {
                 }
                     
                 dout.write(("OK\n").getBytes());
-                System.out.println("SENT: OK");
+                print("SENT: OK");
 
                 str = (String) din.readLine();
-                System.out.println("RCVD: " + str);
+                print("RCVD: " + str);
 
                 dout.write(("SCHD" + jobID + " " + smallest + " " + smallestID1 + "\n").getBytes());
-                System.out.println("SENT: SCHD " + jobID + " " + smallest + " " + smallestID1);
+                print("SENT: SCHD " + jobID + " " + smallest + " " + smallestID1);
                 find = false;
                 str = (String) din.readLine();
-                System.out.println("RCVD: " + str);
+                print("RCVD: " + str);
 
                 dout.write(("REDY\n").getBytes());
-                System.out.println("SENT: REDY");
+                print("SENT: REDY");
 
                 str = (String) din.readLine();
-                System.out.println("RCVD: " + str);
+                print("RCVD: " + str);
             }
 
             dout.write(("QUIT\n").getBytes());
 
             str = (String) din.readLine();
-            System.out.println("Done Scheduling");
+            print("Done Scheduling");
 
             din.close();
             dout.close();
