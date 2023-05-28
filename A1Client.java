@@ -30,9 +30,9 @@ public class A1Client {
 
     public static void main(String[] args) {
         try {
-            Socket s = new Socket("127.0.0.1", 50000);
-            DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-            BufferedReader din = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            Socket socket = new Socket("127.0.0.1", 50000);
+            DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+            BufferedReader din = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             dout.write(("HELO\n").getBytes());
 
@@ -49,15 +49,22 @@ public class A1Client {
             // start the looping for scheduling
             Boolean check = false;
             String savingfirst = "";
-            while (!read.equals("NONE")) {
+            while (!read.startsWith("NONE")) {
+                
+                
+                
                 if (!read.startsWith("JOBN")) {
                     dout.write(("REDY\n").getBytes());
-                    print("SENT: REDY");
+                    print("SENT: REDY + niword");
                     read = (String) din.readLine();
                     print("RCVD: " + read);
 
                     continue;
                 }
+                
+
+
+                
                 //Splitting into seperate parts of the job
                 String[] job = read.split(" ");
                 int jobID = convert(job[2]);
@@ -153,18 +160,17 @@ public class A1Client {
                 print("RCVD: " + read);
             }
 
-            dout.write(("QUIT\n").getBytes());
+            dout.write(("quit\n").getBytes());
 
             read = (String) din.readLine();
             print("Done Scheduling");
 
             din.close();
             dout.close();
-            s.close();
+            socket.close();
 
-        } catch (Exception a) {
-            a.printStackTrace();
-            // fix here
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
