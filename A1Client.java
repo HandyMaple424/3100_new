@@ -120,7 +120,7 @@ public class A1Client {
                         
                     }
                 }
-
+                // for the second algorithim.
                 String largestServer = "";
                 int largestServerID = 0;
                 int ejwt = 0;
@@ -141,7 +141,7 @@ public class A1Client {
                 print(read);
 
                 dout.write(("SCHD" + jobID + " " + smallest + " " + smallestID1 + "\n").getBytes());
-                print("Sent: SCHD " + jobID + " " + smallest + " " + smallestID1);
+                print("Sent: Schedule " + jobID + " " + smallest + " " + smallestID1);
                 find = false;
                 read = (String) din.readLine();
                 print(read);
@@ -152,7 +152,7 @@ public class A1Client {
                 print(read);
             }
 
-            dout.write(("quit\n").getBytes());
+            dout.write(("QUIT\n").getBytes());
 
             read = (String) din.readLine();
             print("Done Scheduling");
