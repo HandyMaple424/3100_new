@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 
 public class A1Client {
 
-    // First we will need to convert a reading to a int.
+    // First we will need to convert a string to a int. makes it also fatser.
     public static int convert(String read) {
         int val = 0;
         try {
@@ -51,19 +51,13 @@ public class A1Client {
             String savingfirst = "";
             while (!read.startsWith("NONE")) {
                 
-                
-                
                 if (!read.startsWith("JOBN")) {
                     dout.write(("REDY\n").getBytes());
-                    print("SENT: REDY + niword");
                     read = (String) din.readLine();
-                    print("RCVD: " + read);
+                    print(read);
 
                     continue;
                 }
-                
-
-
                 
                 //Splitting into seperate parts of the job
                 String[] job = read.split(" ");
@@ -74,10 +68,9 @@ public class A1Client {
                 
 
                 dout.write(("GETS Avail" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
-                print("SENT: GETS Avail");
+                print("Sent: GETS Avail");
 
                 read = (String) din.readLine();
-                print("SENT: GETS avail"+ read);
 
                 int nRecs2 = 0;
                 boolean Capable1 = false;
@@ -86,7 +79,7 @@ public class A1Client {
                     dout.write(("OK\n").getBytes());
                     read = (String) din.readLine();
                     dout.write(("GETS Capable" + " " + jobcore + " " +jobmem + " " + jobdisk + "\n").getBytes());
-                    print("SENT: GETS capable");
+                    print("Sent: GETS Capable");
                     read = (String) din.readLine();
                     Capable1 = true;
 
@@ -95,7 +88,7 @@ public class A1Client {
                 }
                 
 
-                print("RCVD: " + read);
+                print(read);
                 String[] response = read.split(" ");
                
                 int nRecs = convert(response[1]);
@@ -113,7 +106,7 @@ public class A1Client {
                 for (int i = 0; i < nRecs; i++) {
 
                     read = (String)din.readLine();
-                    print("RCVD: " + read);
+                    print(read);
 
                     String[] server = read.split(" ");
 
@@ -133,6 +126,7 @@ public class A1Client {
                 int ejwt = 0;
                 int smallejwt = 10000000;
 
+                //This would of been for the second algorithim, not enough time breaks to much when trying.
                 String servername = "";
                 int serverid = 0;
                 if(Capable1 == true){
@@ -142,22 +136,20 @@ public class A1Client {
                 }
                     
                 dout.write(("OK\n").getBytes());
-                print("SENT: OK");
 
                 read = (String) din.readLine();
-                print("RCVD: " + read);
+                print(read);
 
                 dout.write(("SCHD" + jobID + " " + smallest + " " + smallestID1 + "\n").getBytes());
-                print("SENT: SCHD " + jobID + " " + smallest + " " + smallestID1);
+                print("Sent: SCHD " + jobID + " " + smallest + " " + smallestID1);
                 find = false;
                 read = (String) din.readLine();
-                print("RCVD: " + read);
+                print(read);
 
                 dout.write(("REDY\n").getBytes());
-                print("SENT: REDY");
 
                 read = (String) din.readLine();
-                print("RCVD: " + read);
+                print(read);
             }
 
             dout.write(("quit\n").getBytes());
